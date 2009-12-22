@@ -128,6 +128,15 @@ class ArrayPaginationTest < Test::Unit::TestCase
     # It's `total_pages` now.
   end
 
+  def test_map_returns_a_collection
+    entries = %w(a b c)
+    collection = create(2, 3, 10) do |pager|
+      assert_equal entries, pager.replace(entries)
+    end
+
+    assert_equal WillPaginate::Collection, collection.map{|e| e.next }.class
+  end
+
   private
     def create(page = 2, limit = 5, total = nil, &block)
       if block_given?

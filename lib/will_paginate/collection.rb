@@ -142,5 +142,14 @@ module WillPaginate
 
       result
     end
+
+    # This is a simple wrapper for the original Array#map method. It returns an
+    # instance of WillPaginate::Collection.
+    def map
+      WillPaginate::Collection.create(self.current_page, self.per_page, self.total_entries) do |pager|
+        pager.replace(super)
+      end
+    end
+
   end
 end
